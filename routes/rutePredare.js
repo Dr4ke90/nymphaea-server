@@ -1,14 +1,8 @@
-const { MongoClient } = require("mongodb");
-
-const mongoURI = "mongodb://localhost:27017";
-const dbName = "Coral";
+const connectDB = require("../db");
 
 const getAllpredare = async (req, res) => {
   try {
-    const client = new MongoClient(mongoURI);
-    await client.connect();
-
-    const db = client.db(dbName);
+    const db = await connectDB();
     const collection = db.collection("predare_it");
 
     const response = await collection.find({}).toArray();
@@ -31,10 +25,7 @@ const getAllpredare = async (req, res) => {
 const getOnePredareFile = async (req, res) => {
   const { pv } = req.params;
   try {
-    const client = new MongoClient(mongoURI);
-    await client.connect();
-
-    const db = client.db(dbName);
+    const db = await connectDB();
     const collection = db.collection("predare_it");
 
     const response = await collection.findOne({ pv });
@@ -56,10 +47,7 @@ const postOnePredareFile = async (req, res) => {
   const fisaNoua = req.body;
 
   try {
-    const client = new MongoClient(mongoURI);
-    await client.connect();
-
-    const db = client.db(dbName);
+    const db = await connectDB();
     const collection = db.collection("predare_it");
 
     const response = await collection.insertOne(fisaNoua);
@@ -81,10 +69,7 @@ const updateOnePredareFile = async (req, res) => {
   const data = req.body;
 
   try {
-    const client = new MongoClient(mongoURI);
-    await client.connect();
-
-    const db = client.db(dbName);
+    const db = await connectDB();
     const collection = db.collection("predare_it");
 
     const response = await collection.updateOne({ pv: pv }, { $set: data });
@@ -108,10 +93,7 @@ const updateOnePredareFile = async (req, res) => {
 const deleteOnePredareFile = async (req, res) => {
   const { pv } = req.params;
   try {
-    const client = new MongoClient(mongoURI);
-    await client.connect();
-
-    const db = client.db(dbName);
+    const db = await connectDB();
     const collection = db.collection("predare_it");
 
     const response = await collection.deleteOne({ pv: pv });

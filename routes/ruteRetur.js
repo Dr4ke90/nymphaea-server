@@ -1,14 +1,8 @@
-const { MongoClient } = require("mongodb");
-
-const mongoURI = "mongodb://localhost:27017";
-const dbName = "Coral";
+const connectDB = require("../db");
 
 const getAllRetur = async (req, res) => {
   try {
-    const client = new MongoClient(mongoURI);
-    await client.connect();
-
-    const db = client.db(dbName);
+    const db = await connectDB();
     const collection = db.collection("retur_it");
 
     const retur = await collection.find({}).toArray();
@@ -22,10 +16,7 @@ const getAllRetur = async (req, res) => {
 const getOneReturFile = async (req, res) => {
   const { pv } = req.params;
   try {
-    const client = new MongoClient(mongoURI);
-    await client.connect();
-
-    const db = client.db(dbName);
+    const db = await connectDB();
     const collection = db.collection("retur_it");
 
     const response = await collection.findOne({ pv });
@@ -42,10 +33,7 @@ const getOneReturFile = async (req, res) => {
 
 const postOneReturFile = async (req, res) => {
   try {
-    const client = new MongoClient(mongoURI);
-    await client.connect();
-
-    const db = client.db(dbName);
+    const db = await connectDB();
     const collection = db.collection("retur_it");
 
     const retur = req.body;
@@ -58,7 +46,7 @@ const postOneReturFile = async (req, res) => {
       .status(200)
       .json({ succes: `Fisa cu nr ${fisaNoua.pv} a fost adaugata cu succes` });
   } catch (error) {
-    res.status(500).json({ error: "Eroare la adăugarea facturii "});
+    res.status(500).json({ error: "Eroare la adăugarea facturii " });
   }
 };
 
@@ -67,10 +55,7 @@ const updateOneReturFile = async (req, res) => {
   const updates = req.body;
 
   try {
-    const client = new MongoClient(mongoURI);
-    await client.connect()
-
-    const db = client.db(dbName);
+    const db = await connectDB();
 
     const collection = db.collection("retur_it");
 
@@ -90,7 +75,7 @@ const updateOneReturFile = async (req, res) => {
       });
     }
 
-    res.json(response)
+    res.json(response);
   } catch (error) {
     res
       .status(500)
@@ -98,16 +83,10 @@ const updateOneReturFile = async (req, res) => {
   }
 };
 
-
-const deleteOneReturFile =  async (req, res) => {
+const deleteOneReturFile = async (req, res) => {
   const { pv } = req.params;
-
-  console.log(pv)
   try {
-    const client = new MongoClient(mongoURI);
-    await client.connect();
-
-    const db = client.db(dbName);
+    const db = await connectDB();
     const collection = db.collection("retur_it");
 
     const response = await collection.deleteOne({ pv: pv });
@@ -126,12 +105,12 @@ const deleteOneReturFile =  async (req, res) => {
     console.error("Eroare la stergerea proceselor verbale:", error);
     res.status(500).json({ error: "Eroare la stergerea proceselor verbale" });
   }
-}
+};
 
 module.exports = {
   getAllRetur,
   postOneReturFile,
   updateOneReturFile,
   getOneReturFile,
-  deleteOneReturFile
+  deleteOneReturFile,
 };

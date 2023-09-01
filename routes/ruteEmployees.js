@@ -1,21 +1,18 @@
-const { MongoClient } = require("mongodb");
+const connectDB = require("../db");
 
-const mongoURI = "mongodb://localhost:27017";
-const dbName = "Coral";
-
-const getAllEchipament = async (req, res) => {
+const getAllEmployees = async (req, res) => {
   try {
-    const client = new MongoClient(mongoURI);
-    await client.connect();
-
-    const db = client.db(dbName);
-    const collection = db.collection("echipament_it");
+    const db = await connectDB();
+    const collection = db.collection("angajati");
 
     const echipament = await collection.find({}).toArray();
+
     res.json(echipament);
   } catch (error) {
-    console.error("Eroare la preluarea facturilor:", error);
-    res.status(500).json({ error: "Eroare la preluarea facturilor" });
+    console.error("Eroare la preluarea listei de Angajati:", error);
+    res
+      .status(500)
+      .json({ error: "Eroare la preluarea listei de Angajati" });
   }
 };
 
@@ -23,10 +20,7 @@ const postOneEchipoamentFile = async (req, res) => {
   const echipament = req.body;
 
   try {
-    const client = new MongoClient(mongoURI);
-    await client.connect();
-
-    const db = client.db(dbName);
+    const db = await connectDB();
     const collection = db.collection("echipament_it");
 
     const response = await collection.insertOne(echipament);
@@ -49,10 +43,7 @@ const getOneEchipamentFile = async (req, res) => {
   const { cit } = req.params;
 
   try {
-    const client = new MongoClient(mongoURI);
-    await client.connect();
-
-    const db = client.db(dbName);
+    const db = await connectDB();
     const collection = db.collection("echipament_it");
 
     const response = await collection.findOne(
@@ -78,10 +69,7 @@ const updateEchipamentFile = async (req, res) => {
   const updates = req.body;
 
   try {
-    const client = new MongoClient(mongoURI);
-    await client.connect();
-
-    const db = client.db(dbName);
+    const db = await connectDB();
     const collection = db.collection("echipament_it");
 
     const response = await collection.updateOne(
@@ -105,7 +93,7 @@ const updateEchipamentFile = async (req, res) => {
 };
 
 module.exports = {
-  getAllEchipament,
+  getAllEmployees,
   getOneEchipamentFile,
   updateEchipamentFile,
   postOneEchipoamentFile,

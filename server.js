@@ -1,16 +1,47 @@
+require("dotenv").config();
 const express = require("express");
-const cors = require("cors");
-const { getAllNecesar, getOneFileNecesar, postNecesarFile, updateNecesarFile, deleteNecesarFile} = require("./routes/ruteNecesar");
-const { getAllpredare, getOnePredareFile, updateOnePredareFile, postOnePredareFile, deleteOnePredareFile } = require("./routes/rutePredare");
-const { getAllEchipament, getOneEchipamentFile, updateEchipamentFile, postOneEchipoamentFile } = require("./routes/ruteEchipament");
-const { getAllRetur, postOneReturFile, updateOneReturFile, deleteOneReturFile, getOneReturFile } = require("./routes/ruteRetur");
-const { getNecesarTemplate, getPvrTemplate, getPvppTemplate } = require("./routes/ruteFisiere");
-const { getAllInvoices, postOneInvoice, getOneInvoice, deleteOneInvoice, updateOneInvoice } = require("./routes/ruteFacturi");
-const { getAllUsers, getOneUser } = require("./routes/ruteUtilizatori");
-
 const app = express();
-const port = 3000;
-
+const cors = require("cors");
+const {
+  getAllNecesar,
+  getOneFileNecesar,
+  postNecesarFile,
+  updateNecesarFile,
+  deleteNecesarFile,
+} = require("./routes/ruteNecesar");
+const {
+  getAllpredare,
+  getOnePredareFile,
+  updateOnePredareFile,
+  postOnePredareFile,
+  deleteOnePredareFile,
+} = require("./routes/rutePredare");
+const {
+  getAllEmployees,
+  getOneEchipamentFile,
+  updateEchipamentFile,
+  postOneEchipoamentFile,
+} = require("./routes/ruteEmployees");
+const {
+  getAllRetur,
+  postOneReturFile,
+  updateOneReturFile,
+  deleteOneReturFile,
+  getOneReturFile,
+} = require("./routes/ruteRetur");
+const {
+  getNecesarTemplate,
+  getPvrTemplate,
+  getPvppTemplate,
+} = require("./routes/ruteFisiere");
+const {
+  getAllInvoices,
+  postOneInvoice,
+  getOneInvoice,
+  deleteOneInvoice,
+  updateOneInvoice,
+} = require("./routes/ruteFacturi");
+const { getAllUsers, getOneUser } = require("./routes/ruteUtilizatori");
 
 // Middlewares
 app.use(express.json());
@@ -40,10 +71,9 @@ app.put("/coral/it/necesar/:fisa", updateNecesarFile);
 
 app.delete("/coral/it/necesar/:fisa", deleteNecesarFile);
 
-
 // Rute echipament
 
-app.get("/coral/it/echipament", getAllEchipament);
+app.get("/api/nymphaea/employees", getAllEmployees);
 
 app.get("/coral/it/echipament/:cit", getOneEchipamentFile);
 
@@ -71,9 +101,9 @@ app.get("/coral/it/retur/:pv", getOneReturFile);
 
 app.post("/coral/it/retur", postOneReturFile);
 
-app.put('/coral/it/retur/:pv', updateOneReturFile);
+app.put("/coral/it/retur/:pv", updateOneReturFile);
 
-app.delete('/coral/it/retur/:pv', deleteOneReturFile)
+app.delete("/coral/it/retur/:pv", deleteOneReturFile);
 
 // Rute Fisiere
 
@@ -88,9 +118,8 @@ app.get("/coral/users", getAllUsers);
 
 app.get("/coral/users/:id", getOneUser);
 
-
-
 // Pornirea serverului
+const port = process.env.PORT;
 app.listen(port, () => {
   console.log(`Serverul rulează la adresa http://localhost:${port}`);
 });

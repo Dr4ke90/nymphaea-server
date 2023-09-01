@@ -1,15 +1,11 @@
-const { MongoClient, ObjectId } = require("mongodb");
-
-const mongoURI = "mongodb://localhost:27017";
-const dbName = "Coral";
+const { ObjectId } = require("mongodb");
+const connectDB = require("../db");
 
 const getAllInvoices = async (req, res) => {
   try {
-    const client = new MongoClient(mongoURI);
-    await client.connect();
+    const db = await connectDB();
 
-    const db = client.db(dbName);
-    const collection = db.collection("facturi_it"); 
+    const collection = db.collection("facturi_it");
 
     const facturi = await collection.find({}).toArray();
     res.json(facturi);
@@ -21,10 +17,7 @@ const getAllInvoices = async (req, res) => {
 
 const postOneInvoice = async (req, res) => {
   try {
-    const client = new MongoClient(mongoURI);
-    await client.connect();
-
-    const db = client.db(dbName);
+    const db = await connectDB();
     const collection = db.collection("facturi_it");
 
     const facturaData = req.body;
@@ -39,10 +32,7 @@ const postOneInvoice = async (req, res) => {
 const deleteOneInvoice = async (req, res) => {
   const { id } = req.params;
   try {
-    const client = new MongoClient(mongoURI);
-    await client.connect();
-
-    const db = client.db(dbName);
+    const db = await connectDB();
     const collection = db.collection("facturi_it");
 
     const response = await collection.deleteOne({ _id: new ObjectId(id) });
@@ -67,16 +57,13 @@ const getOneInvoice = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const client = new MongoClient(mongoURI);
-    await client.connect();
-
-    const db = client.db(dbName);
+    const db = await connectDB();
     const collection = db.collection("facturi_it");
 
     const response = await collection.findOne({ _id: new ObjectId(id) });
 
     if (!response) {
-      return res.status(404).json({error: "Factura nu a fost găsita."});
+      return res.status(404).json({ error: "Factura nu a fost găsita." });
     }
 
     return res.json(response);
@@ -89,13 +76,10 @@ const getOneInvoice = async (req, res) => {
 const updateOneInvoice = async (req, res) => {
   const { id } = req.params;
   const updates = req.body;
-  delete updates._id
+  delete updates._id;
 
   try {
-    const client = new MongoClient(mongoURI);
-    await client.connect();
-
-    const db = client.db(dbName);
+    const db = await connectDB();
     const collection = db.collection("facturi_it");
 
     const response = await collection.updateOne(
