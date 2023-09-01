@@ -105,14 +105,6 @@ app.put("/coral/it/retur/:pv", updateOneReturFile);
 
 app.delete("/coral/it/retur/:pv", deleteOneReturFile);
 
-// Rute Fisiere
-
-app.get("/coral/it/templates/necesar.docx", getNecesarTemplate);
-
-app.get("/coral/it/templates/predare.docx", getPvppTemplate);
-
-app.get("/coral/it/templates/retur.docx", getPvrTemplate);
-
 // Rute Utilizatori
 app.get("/coral/users", getAllUsers);
 
