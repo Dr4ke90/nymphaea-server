@@ -3,37 +3,33 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const {
-  getAllNecesar,
-  getOneFileNecesar,
-  postNecesarFile,
-  updateNecesarFile,
-  deleteNecesarFile,
-} = require("./routes/ruteNecesar");
+  getAllServices,
+  getOneService,
+  postServiciu,
+  updateServiciu,
+  deleteServiciu,
+} = require("./routes/servicesRoutes");
 const {
-  getAllpredare,
-  getOnePredareFile,
-  updateOnePredareFile,
-  postOnePredareFile,
-  deleteOnePredareFile,
-} = require("./routes/rutePredare");
+  getAllCustomers,
+  getOneCustomer,
+  updateOneCustomer,
+  postOneCustomer,
+  deleteOneCustomer,
+} = require("./routes/customersRoutes");
 const {
   getAllEmployees,
-  getOneEchipamentFile,
-  updateEchipamentFile,
-  postOneEchipoamentFile,
-} = require("./routes/ruteEmployees");
+  postOneEmployee,
+  getOneEmployee,
+  updateOneEmployee,
+  deleteOneEmployee,
+} = require("./routes/employeesRoutes");
 const {
   getAllRetur,
   postOneReturFile,
   updateOneReturFile,
   deleteOneReturFile,
   getOneReturFile,
-} = require("./routes/ruteRetur");
-const {
-  getNecesarTemplate,
-  getPvrTemplate,
-  getPvppTemplate,
-} = require("./routes/ruteFisiere");
+} = require("./routes/appointmentsRoutes");
 const {
   getAllInvoices,
   postOneInvoice,
@@ -48,50 +44,32 @@ app.use(express.json());
 app.use(cors());
 
 //Rute facturi
+app.get("/api/nymphaea/facturi", getAllInvoices);
+app.post("/api/nymphaea/factura", postOneInvoice);
+app.delete("/api/nymphaea/factura/:id", deleteOneInvoice);
+app.get("/api/nymphaea/factura/:id", getOneInvoice);
+app.put("/api/nymphaea/factura/:id", updateOneInvoice);
 
-app.get("/coral/it/facturi", getAllInvoices);
+// Rute Servicii
+app.get("/api/nymphaea/services", getAllServices);
+app.get("/api/nymphaea/services/:cod", getOneService);
+app.post("/api/nymphaea/services", postServiciu);
+app.put("/api/nymphaea/services/:cod", updateServiciu);
+app.delete("/api/nymphaea/services/:cod", deleteServiciu);
 
-app.post("/coral/it/factura", postOneInvoice);
-
-app.delete("/coral/it/factura/:id", deleteOneInvoice);
-
-app.get("/coral/it/factura/:id", getOneInvoice);
-
-app.put("/coral/it/factura/:id", updateOneInvoice);
-
-// Rute Necesar
-
-app.get("/coral/it/necesar", getAllNecesar);
-
-app.get("/coral/it/necesar/:fisa", getOneFileNecesar);
-
-app.post("/coral/it/necesar", postNecesarFile);
-
-app.put("/coral/it/necesar/:fisa", updateNecesarFile);
-
-app.delete("/coral/it/necesar/:fisa", deleteNecesarFile);
-
-// Rute echipament
-
+// Rute Angajati
 app.get("/api/nymphaea/employees", getAllEmployees);
+app.get("/api/nymphaea/employees/:cod", getOneEmployee);
+app.post("/api/nymphaea/employees", postOneEmployee);
+app.put("/api/nymphaea/employees/:cod", updateOneEmployee);
+app.delete("/api/nymphaea/employees/:cod", deleteOneEmployee);
 
-app.get("/coral/it/echipament/:cit", getOneEchipamentFile);
-
-app.put("/coral/it/echipament/:cit", updateEchipamentFile);
-
-app.post("/coral/it/echipament/", postOneEchipoamentFile);
-
-// Rute Predare
-
-app.get("/coral/it/predare", getAllpredare);
-
-app.get("/coral/it/predare/:pv", getOnePredareFile);
-
-app.put("/coral/it/predare/:pv", updateOnePredareFile);
-
-app.delete("/coral/it/predare/:pv", deleteOnePredareFile);
-
-app.post("/coral/it/predare", postOnePredareFile);
+// Rute Clienti
+app.get("/api/nymphaea/customers", getAllCustomers);
+app.get("/api/nymphaea/customers/:cod", getOneCustomer);
+app.put("/api/nymphaea/customers/:cod", updateOneCustomer);
+app.delete("/api/nymphaea/customers/:cod", deleteOneCustomer);
+app.post("/api/nymphaea/customers", postOneCustomer);
 
 // Rute Retur
 
