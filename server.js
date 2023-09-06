@@ -36,7 +36,7 @@ const {
   getOneInvoice,
   deleteOneInvoice,
   updateOneInvoice,
-} = require("./routes/ruteFacturi");
+} = require("./routes/invoicesRoutes");
 const { getAllUsers, getOneUser } = require("./routes/ruteUtilizatori");
 
 // Middlewares
@@ -44,11 +44,11 @@ app.use(express.json());
 app.use(cors());
 
 //Rute facturi
-app.get("/api/nymphaea/facturi", getAllInvoices);
-app.post("/api/nymphaea/factura", postOneInvoice);
-app.delete("/api/nymphaea/factura/:id", deleteOneInvoice);
-app.get("/api/nymphaea/factura/:id", getOneInvoice);
-app.put("/api/nymphaea/factura/:id", updateOneInvoice);
+app.get("/api/nymphaea/invoices", getAllInvoices);
+app.post("/api/nymphaea/invoices", postOneInvoice);
+app.delete("/api/nymphaea/invoices/:id", deleteOneInvoice);
+app.get("/api/nymphaea/invoices/:id", getOneInvoice);
+app.put("/api/nymphaea/invoices/:id", updateOneInvoice);
 
 // Rute Servicii
 app.get("/api/nymphaea/services", getAllServices);

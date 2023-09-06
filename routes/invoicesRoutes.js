@@ -5,7 +5,7 @@ const getAllInvoices = async (req, res) => {
   try {
     const db = await connectDB();
 
-    const collection = db.collection("facturi_it");
+    const collection = db.collection("facturi");
 
     const facturi = await collection.find({}).toArray();
     res.json(facturi);
@@ -16,13 +16,22 @@ const getAllInvoices = async (req, res) => {
 };
 
 const postOneInvoice = async (req, res) => {
+  const factura = req.body;
   try {
     const db = await connectDB();
-    const collection = db.collection("facturi_it");
+    const collection = db.collection("facturi");
 
-    const facturaData = req.body;
+    await collection.insertOne(factura);
 
-    await collection.insertOne(facturaData);
+    if (!response.acknowledged) {
+      return res.status(404).json({
+        message: `Progamarea ${appointement.nr} nu a putut fi adaugata.`,
+      });
+    }
+
+    return res.status(200).json({
+      message: `Programarea ${appointement.nr} a fost adaugata cu succes`,
+    });
   } catch (error) {
     console.error("Eroare la adăugarea facturii:", error);
     res.status(500).json({ error: "Eroare la adăugarea facturii" });
@@ -30,45 +39,53 @@ const postOneInvoice = async (req, res) => {
 };
 
 const deleteOneInvoice = async (req, res) => {
-  const { id } = req.params;
+  const { nr } = req.params;
   try {
     const db = await connectDB();
-    const collection = db.collection("facturi_it");
+    const collection = db.collection("facturi");
 
-    const response = await collection.deleteOne({ _id: new ObjectId(id) });
+    const response = await collection.deleteOne({ nr: nr });
 
     if (!response) {
       return res
         .status(404)
-        .json({ error: `Factura cu id ${id} nu a fost găsita.` });
+        .json({ message: `Factura cu nr ${nr} nu a fost găsita.` });
     }
 
     return res.status(200).json({
-      success: `Factura cu id ${id} a fost stearsa cu succes.`,
+      message: `Factura cu nr ${nr} a fost stearsa cu succes.`,
     });
   } catch (error) {
     return res
       .status(500)
-      .json({ error: "Eroare la stergerea farturii " + id });
+      .json({ error: "Eroare la stergerea farturii " + nr });
   }
 };
 
 const getOneInvoice = async (req, res) => {
-  const { id } = req.params;
+  const { nr } = req.params;
 
   try {
     const db = await connectDB();
-    const collection = db.collection("facturi_it");
+    const collection = db.collection("facturi");
 
-    const response = await collection.findOne({ _id: new ObjectId(id) });
+    const response = await collection.findOne({ nr: nr });
 
     if (!response) {
-      return res.status(404).json({ error: "Factura nu a fost găsita." });
+      return res
+        .status(200)
+        .json({
+          message: `Factura ${nr} nu exista in baza de date`,
+          response: {},
+        });
     }
 
-    return res.json(response);
+    return res.status(200).json({
+      message: `Factura ${nr} a fost preluata cu succes`,
+      response: response,
+    });
   } catch (error) {
-    console.error("Eroare la preluarea facturii:", error);
+    console.error("Eroare la preluarea facturii" + nr, error);
     return res.status(500).json({ error: "Eroare la preluarea facturii" });
   }
 };
