@@ -24,11 +24,11 @@ const {
   deleteOneEmployee,
 } = require("./routes/employeesRoutes");
 const {
-  getAllRetur,
-  postOneReturFile,
-  updateOneReturFile,
-  deleteOneReturFile,
-  getOneReturFile,
+  getAllAppointments,
+  postOneAppointment,
+  updateOneAppointment,
+  deleteOneAppointment,
+  getOneAppointment,
 } = require("./routes/appointmentsRoutes");
 const {
   getAllInvoices,
@@ -72,20 +72,14 @@ app.delete("/api/nymphaea/customers/:cod", deleteOneCustomer);
 app.post("/api/nymphaea/customers", postOneCustomer);
 
 // Rute Retur
-
-app.get("/coral/it/retur", getAllRetur);
-
-app.get("/coral/it/retur/:pv", getOneReturFile);
-
-app.post("/coral/it/retur", postOneReturFile);
-
-app.put("/coral/it/retur/:pv", updateOneReturFile);
-
-app.delete("/coral/it/retur/:pv", deleteOneReturFile);
+app.get("/api/nymphaea/appointments", getAllAppointments);
+app.get("/api/nymphaea/appointments/:nr", getOneAppointment);
+app.post("/api/nymphaea/appointments", postOneAppointment);
+app.put("/api/nymphaea/appointments/:nr", updateOneAppointment);
+app.delete("/api/nymphaea/appointments/:nr", deleteOneAppointment);
 
 // Rute Utilizatori
 app.get("/coral/users", getAllUsers);
-
 app.get("/coral/users/:id", getOneUser);
 
 // Pornirea serverului

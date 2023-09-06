@@ -47,12 +47,12 @@ const postOneAppointment = async (req, res) => {
 
     if (!response.acknowledged) {
       return res.status(404).json({
-        error: `Progamarea ${appointement.nr} nu a putut fi adaugata.`,
+        message: `Progamarea ${appointement.nr} nu a putut fi adaugata.`,
       });
     }
 
     return res.status(200).json({
-      success: `Programarea ${appointement.nr} a fost adaugata cu succes`,
+      message: `Programarea ${appointement.nr} a fost adaugata cu succes`,
     });
   } catch (error) {
     res.status(500).json({ error: "Eroare la adăugarea Programarii " });
@@ -74,15 +74,19 @@ const updateOneAppointment = async (req, res) => {
     );
 
     if (response.matchedCount === 0) {
-      return res.status(404).json({
-        error: `Programarea ${nr} nu a fost gasita!`,
+      return res.status(200).json({
+        message: `Programarea ${nr} nu a fost gasita!`,
+        response: response.matchedCount,
       });
     }
 
     if (response.modifiedCount !== 0) {
       return res
         .status(200)
-        .json({ success: `Programarea ${nr} a fost actualizata cu succes.` });
+        .json({
+          message: `Programarea ${nr} a fost actualizata cu succes.`,
+          response: response.modifiedCount,
+        });
     }
   } catch (error) {
     res
@@ -102,11 +106,11 @@ const deleteOneAppointment = async (req, res) => {
     if (response.matchedCount === 0) {
       return res
         .status(404)
-        .json({ error: `Programarea ${nr} nu a fost găsita.` });
+        .json({ message: `Programarea ${nr} nu a fost găsita.` });
     }
 
     res.json({
-      success: `Programarea ${nr} a fost stearsa cu succes.`,
+      message: `Programarea ${nr} a fost stearsa cu succes.`,
     });
   } catch (error) {
     console.error("Eroare la stergerea Programarii " + nr, error);

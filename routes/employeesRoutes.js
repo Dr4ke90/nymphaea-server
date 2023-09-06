@@ -52,12 +52,16 @@ const getOneEmployee = async (req, res) => {
     );
 
     if (response === null) {
-      return res
-        .status(404)
-        .json({ error: `Angajatul cu codul ${cod} nu a fost gasit` });
+      return res.status(200).json({
+        message: `Angajatul ${cod} nu exista in baza de date`,
+        response: {},
+      });
     }
 
-    return res.status(200).json({ response: response });
+    return res.status(200).json({
+      message: `Angajatul ${cod} a fost preluat cu succes`,
+      response: response,
+    });
   } catch (error) {
     console.error(`Eroare la preluarea angajatului ${cod}`, error);
     return res
@@ -69,7 +73,7 @@ const getOneEmployee = async (req, res) => {
 const updateOneEmployee = async (req, res) => {
   const { cod } = req.params;
   const updates = req.body;
-  delete updates._id
+  delete updates._id;
 
   try {
     const db = await connectDB();
@@ -81,22 +85,23 @@ const updateOneEmployee = async (req, res) => {
     );
 
     if (response.matchedCount === 0) {
-      return res
-        .status(200)
-        .json({
-          error: `Angajatul cu codul ${cod} nu a fost gasit`,
-          response: {},
-        });
+      return res.status(200).json({
+        message: `Angajatul ${cod} nu a fost gasit`,
+        response: response.matchedCount,
+      });
     }
 
     if (response.modifiedCount >= 1) {
       res.json({
-        success: `Angajatul cu codul ${cod} a fost actualizat cu succes.`,
+        message: `Angajatul cu codul ${cod} a fost actualizat cu succes.`,
+        response: response.modifiedCount,
       });
     }
   } catch (error) {
     console.error("Eroare la actualizarea Angajatului " + cod, error);
-    res.status(500).json({ error: "Eroare la actualizarea angajatului " + cod });
+    res
+      .status(500)
+      .json({ error: "Eroare la actualizarea angajatului " + cod });
   }
 };
 
@@ -118,9 +123,7 @@ const deleteOneEmployee = async (req, res) => {
       success: `Angajatul ${cod} a fost sters cu succes.`,
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: "Eroare la stergerea angajatului " + cod });
+    res.status(500).json({ error: "Eroare la stergerea angajatului " + cod });
   }
 };
 
