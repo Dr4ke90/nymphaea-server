@@ -37,7 +37,14 @@ const {
   deleteOneInvoice,
   updateOneInvoice,
 } = require("./routes/invoicesRoutes");
+const {
+  getAllInventory,
+  postOneProduct,
+  getOneProduct,
+  updateOneProduct,
+} = require("./routes/inventoryRoutes");
 const { getAllUsers, getOneUser } = require("./routes/ruteUtilizatori");
+const { getAllReceipes, postOneReceipe, updateOneReceipe } = require("./routes/cashRegisterRoutes");
 
 // Middlewares
 app.use(express.json());
@@ -77,6 +84,17 @@ app.get("/api/nymphaea/appointments/:nr", getOneAppointment);
 app.post("/api/nymphaea/appointments", postOneAppointment);
 app.put("/api/nymphaea/appointments/:nr", updateOneAppointment);
 app.delete("/api/nymphaea/appointments/:nr", deleteOneAppointment);
+
+// Rute Stocuri
+app.get("/api/nymphaea/inventory", getAllInventory);
+app.get("/api/nymphaea/inventory/:nrInv", getOneProduct);
+app.post("/api/nymphaea/inventory", postOneProduct);
+app.put("/api/nymphaea/inventory/:nr", updateOneProduct);
+
+// Rute Casa
+app.get("/api/nymphaea/casa", getAllReceipes);
+app.post("/api/nymphaea/casa", postOneReceipe);
+app.put("/api/nymphaea/casa/:nr", updateOneReceipe);
 
 // Rute Utilizatori
 app.get("/coral/users", getAllUsers);

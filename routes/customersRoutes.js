@@ -14,7 +14,6 @@ const getAllCustomers = async (req, res) => {
   }
 };
 
-
 const getOneCustomer = async (req, res) => {
   const { cod } = req.params;
   try {
@@ -26,8 +25,10 @@ const getOneCustomer = async (req, res) => {
       { returnDocument: "after" }
     );
 
-    if (!response) {
-      return res.status(404).json({ error: `Clientul ${cod} nu a fost gasit` });
+    if (response === null) {
+      return res
+        .status(200)
+        .json({ message: `Clientul ${cod} nu a fost gasit`, response: {} });
     }
 
     return res.status(200).json({

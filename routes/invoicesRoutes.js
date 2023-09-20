@@ -21,16 +21,19 @@ const postOneInvoice = async (req, res) => {
     const db = await connectDB();
     const collection = db.collection("facturi");
 
-    await collection.insertOne(factura);
+    const response = await collection.insertOne(factura);
+
 
     if (!response.acknowledged) {
-      return res.status(404).json({
-        message: `Progamarea ${appointement.nr} nu a putut fi adaugata.`,
+      return res.status(200).json({
+        message: `Factura ${factura.cod} nu a putut fi adaugata.`,
+        response: {}
       });
     }
 
     return res.status(200).json({
-      message: `Programarea ${appointement.nr} a fost adaugata cu succes`,
+      message: `Factura ${factura.cod} a fost adaugata cu succes`,
+      response: factura
     });
   } catch (error) {
     console.error("Eroare la adăugarea facturii:", error);
