@@ -14,7 +14,6 @@ const getAllInventory = async (req, res) => {
   }
 };
 
-
 const getOneProduct = async (req, res) => {
   const { nrInv } = req.params;
   try {
@@ -27,7 +26,9 @@ const getOneProduct = async (req, res) => {
     );
 
     if (!response) {
-      return res.status(404).json({ message: `Produsul ${nrInv} nu a fost gasit` });
+      return res
+        .status(404)
+        .json({ message: `Produsul ${nrInv} nu a fost gasit` });
     }
 
     return res.status(200).json({
@@ -65,32 +66,31 @@ const postOneProduct = async (req, res) => {
 };
 
 const updateOneProduct = async (req, res) => {
-  const { nrInv } = req.params;
+  const { cod } = req.params;
   const data = req.body;
 
   try {
     const db = await connectDB();
     const collection = db.collection("stocuri");
 
-    const response = await collection.updateOne({ nrInv: nrInv }, { $set: data });
+    const response = await collection.updateOne({ cod: cod }, { $set: data });
 
     if (response.matchedCount === 0) {
-      return res
-        .status(404)
-        .json({ message: `Produsul  ${nrInv} nu a fost găsit.` });
+      return res.status(200).json({
+        message: `Produsul ${cod} nu a fost găsit.`,
+        response: response.matchedCount,
+      });
     }
 
     if (response.modifiedCount !== 0) {
       return res
         .status(200)
-        .json({ message: `Produsul ${nrInv} a fost actualizata cu succes.` });
+        .json({ message: `Produsul ${cod} a fost actualizata cu succes.` });
     }
   } catch (error) {
-    res.status(500).json("Eroare la actualizarea Produsuli " + nrInv);
+    res.status(500).json("Eroare la actualizarea Produsuli " + cod);
   }
 };
-
-
 
 module.exports = {
   getAllInventory,

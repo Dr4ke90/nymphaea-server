@@ -45,10 +45,13 @@ const {
 } = require("./routes/inventoryRoutes");
 const { getAllUsers, getOneUser } = require("./routes/ruteUtilizatori");
 const { getAllReceipes, postOneReceipe, updateOneReceipe } = require("./routes/cashRegisterRoutes");
+const { getAllSales, postOneSale, getOneSale } = require("./routes/salesRoute");
 
 // Middlewares
 app.use(express.json());
 app.use(cors());
+
+
 
 //Rute facturi
 app.get("/api/nymphaea/invoices", getAllInvoices);
@@ -96,12 +99,14 @@ app.get("/api/nymphaea/casa", getAllReceipes);
 app.post("/api/nymphaea/casa", postOneReceipe);
 app.put("/api/nymphaea/casa/:nr", updateOneReceipe);
 
-// Rute Utilizatori
-app.get("/coral/users", getAllUsers);
-app.get("/coral/users/:id", getOneUser);
+// Rute Incasari
+app.get("/api/nymphaea/sales", getAllSales);
+app.post("/api/nymphaea/sales", postOneSale);
+app.get("/api/nymphaea/sales/:cod", getOneSale);
+
 
 // Pornirea serverului
 const port = process.env.PORT;
 app.listen(port, () => {
-  console.log(`Serverul rulează la adresa http://localhost:${port}`);
+  console.log(`Serverul asculta pe portul ${port}`);
 });
