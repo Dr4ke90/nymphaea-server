@@ -43,13 +43,25 @@ const {
   getOneProduct,
   updateOneProduct,
 } = require("./routes/inventoryRoutes");
-const { getAllUsers, getOneUser } = require("./routes/ruteUtilizatori");
 const { getAllReceipes, postOneReceipe, updateOneReceipe } = require("./routes/cashRegisterRoutes");
 const { getAllSales, postOneSale, getOneSale } = require("./routes/salesRoute");
+const path = require("path")
+
+
+const _dirname = path.resolve()
+const buildPath = path.join(_dirname, "../client/build")
 
 // Middlewares
 app.use(express.json());
 app.use(cors());
+app.use(express.static(buildPath))
+
+app.get("/*", (req, res) => {
+  res.sendFile(
+    path.join(_dirname, "../client/build/index.html"),
+    (err) => res.status(500).send(err) 
+  )
+})
 
 
 
