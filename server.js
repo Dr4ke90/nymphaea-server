@@ -45,24 +45,11 @@ const {
 } = require("./routes/inventoryRoutes");
 const { getAllReceipes, postOneReceipe, updateOneReceipe } = require("./routes/cashRegisterRoutes");
 const { getAllSales, postOneSale, getOneSale } = require("./routes/salesRoute");
-const path = require("path")
 
-
-const _dirname = path.resolve()
-const buildPath = path.join(_dirname, "../client/build")
 
 // Middlewares
 app.use(express.json());
 app.use(cors());
-app.use(express.static(buildPath))
-
-app.get("/*", (req, res) => {
-  res.sendFile(
-    path.join(_dirname, "../client/build/index.html"),
-    (err) => res.status(500).send(err) 
-  )
-})
-
 
 
 //Rute facturi
@@ -102,9 +89,9 @@ app.delete("/api/nymphaea/appointments/:nr", deleteOneAppointment);
 
 // Rute Stocuri
 app.get("/api/nymphaea/inventory", getAllInventory);
-app.get("/api/nymphaea/inventory/:nrInv", getOneProduct);
+app.get("/api/nymphaea/inventory/:cod", getOneProduct);
 app.post("/api/nymphaea/inventory", postOneProduct);
-app.put("/api/nymphaea/inventory/:nr", updateOneProduct);
+app.put("/api/nymphaea/inventory/:cod", updateOneProduct);
 
 // Rute Casa
 app.get("/api/nymphaea/casa", getAllReceipes);
