@@ -43,7 +43,7 @@ const {
   getOneProduct,
   updateOneProduct,
 } = require("./routes/inventoryRoutes");
-const { getAllReceipes, postOneReceipe, updateOneReceipe } = require("./routes/cashRegisterRoutes");
+const { getAllReceipes, postOneReceipe, updateOneReceipe, deleteOneReceipe } = require("./routes/cashRegisterRoutes");
 const { getAllSales, postOneSale, getOneSale } = require("./routes/salesRoute");
 
 
@@ -96,7 +96,8 @@ app.put("/api/nymphaea/inventory/:cod", updateOneProduct);
 // Rute Casa
 app.get("/api/nymphaea/casa", getAllReceipes);
 app.post("/api/nymphaea/casa", postOneReceipe);
-app.put("/api/nymphaea/casa/:nr", updateOneReceipe);
+app.put("/api/nymphaea/casa/:nrBon", updateOneReceipe);
+app.delete("/api/nymphaea/casa/:nrBon", deleteOneReceipe);
 
 // Rute Incasari
 app.get("/api/nymphaea/sales", getAllSales);
