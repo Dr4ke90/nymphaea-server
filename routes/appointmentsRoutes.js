@@ -76,7 +76,7 @@ const updateOneAppointment = async (req, res) => {
     if (response.matchedCount === 0) {
       return res.status(200).json({
         message: `Programarea ${nr} nu a fost gasita!`,
-        response: response.matchedCount,
+        response: {},
       });
     }
 
@@ -85,7 +85,7 @@ const updateOneAppointment = async (req, res) => {
         .status(200)
         .json({
           message: `Programarea ${nr} a fost actualizata cu succes.`,
-          response: response.modifiedCount,
+          response: appointement,
         });
     }
   } catch (error) {

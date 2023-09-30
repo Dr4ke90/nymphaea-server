@@ -43,14 +43,13 @@ const {
   getOneProduct,
   updateOneProduct,
 } = require("./routes/inventoryRoutes");
-const { getAllUsers, getOneUser } = require("./routes/ruteUtilizatori");
-const { getAllReceipes, postOneReceipe, updateOneReceipe } = require("./routes/cashRegisterRoutes");
+const { getAllReceipes, postOneReceipe, updateOneReceipe, deleteOneReceipe } = require("./routes/cashRegisterRoutes");
 const { getAllSales, postOneSale, getOneSale } = require("./routes/salesRoute");
+
 
 // Middlewares
 app.use(express.json());
 app.use(cors());
-
 
 
 //Rute facturi
@@ -90,14 +89,15 @@ app.delete("/api/nymphaea/appointments/:nr", deleteOneAppointment);
 
 // Rute Stocuri
 app.get("/api/nymphaea/inventory", getAllInventory);
-app.get("/api/nymphaea/inventory/:nrInv", getOneProduct);
+app.get("/api/nymphaea/inventory/:cod", getOneProduct);
 app.post("/api/nymphaea/inventory", postOneProduct);
-app.put("/api/nymphaea/inventory/:nr", updateOneProduct);
+app.put("/api/nymphaea/inventory/:cod", updateOneProduct);
 
 // Rute Casa
 app.get("/api/nymphaea/casa", getAllReceipes);
 app.post("/api/nymphaea/casa", postOneReceipe);
-app.put("/api/nymphaea/casa/:nr", updateOneReceipe);
+app.put("/api/nymphaea/casa/:nrBon", updateOneReceipe);
+app.delete("/api/nymphaea/casa/:nrBon", deleteOneReceipe);
 
 // Rute Incasari
 app.get("/api/nymphaea/sales", getAllSales);

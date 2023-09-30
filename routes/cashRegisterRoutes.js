@@ -32,12 +32,10 @@ const postOneReceipe = async (req, res) => {
       });
     }
 
-    return res
-      .status(200)
-      .json({
-        message: `Bonul ${receipe.nrBon} a fost adaugat cu succes`,
-        response: response.acknowledged,
-      });
+    return res.status(200).json({
+      message: `Bonul ${receipe.nrBon} a fost adaugat cu succes`,
+      response: response.acknowledged,
+    });
   } catch (error) {
     res
       .status(500)
@@ -65,12 +63,37 @@ const updateOneReceipe = async (req, res) => {
     }
 
     if (response.modifiedCount !== 0) {
-      return res
-        .status(200)
-        .json({ message: `Bonul ${nrBon} a fost actualizata cu succes.`, response: response.modifiedCount });
+      return res.status(200).json({
+        message: `Bonul ${nrBon} a fost actualizata cu succes.`,
+        response: response.modifiedCount,
+      });
     }
   } catch (error) {
     res.status(500).json("Eroare la actualizarea bonului " + nrBon);
+  }
+};
+
+const deleteOneReceipe = async (req, res) => {
+  const { nrBon } = req.params;
+  try {
+    const db = await connectDB();
+    const collection = db.collection("casa");
+
+    const response = await collection.deleteOne({ nrBon: nrBon });
+
+    if (response.matchedCount === 0) {
+      return res
+        .status(200)
+        .json({ message: `Bonul ${nrBon} nu a fost găsita.`, response: {} });
+    }
+
+    res.status(200).json({
+      message: `Bonul ${nrBon} a fost stearsa cu succes.`,
+      response: response,
+    });
+  } catch (error) {
+    console.error("Eroare la stergerea bonului " + nrBon, error);
+    res.status(500).json({ error: "Eroare la stergerea bonului " + nrBon });
   }
 };
 
@@ -78,4 +101,5 @@ module.exports = {
   getAllReceipes,
   postOneReceipe,
   updateOneReceipe,
+  deleteOneReceipe
 };

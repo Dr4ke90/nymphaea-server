@@ -15,28 +15,28 @@ const getAllInventory = async (req, res) => {
 };
 
 const getOneProduct = async (req, res) => {
-  const { nrInv } = req.params;
+  const { cod } = req.params;
   try {
     const db = await connectDB();
     const collection = db.collection("stocuri");
 
     const response = await collection.findOne(
-      { nrInv: nrInv },
+      { cod: cod },
       { returnDocument: "after" }
     );
 
     if (!response) {
       return res
-        .status(404)
-        .json({ message: `Produsul ${nrInv} nu a fost gasit` });
+        .status(200)
+        .json({ message: `Produsul ${cod} nu a fost gasit`, response: {} });
     }
 
     return res.status(200).json({
       response: response,
-      message: `Produsul ${nrInv} a fost preluat cu succes`,
+      message: `Produsul ${cod} a fost preluat cu succes`,
     });
   } catch (error) {
-    res.status(500).json("Eroare la preluarea Produsului " + nrInv);
+    res.status(500).json("Eroare la preluarea Produsului " + cod);
   }
 };
 
@@ -52,16 +52,16 @@ const postOneProduct = async (req, res) => {
     if (!response.acknowledged) {
       return res
         .status(200)
-        .json({ message: `Produsul ${product.nrInv} nu a fost gasit` });
+        .json({ message: `Produsul ${product.cod} nu a fost gasit` });
     }
 
     return res
       .status(200)
-      .json({ message: `Produsul ${product.nrInv} a fost adaugat cu succes` });
+      .json({ message: `Produsul ${product.cod} a fost adaugat cu succes` });
   } catch (error) {
     res
       .status(500)
-      .json({ error: `Eroare la adaugarea Produsului ${product.nrInv}` });
+      .json({ error: `Eroare la adaugarea Produsului ${product.cod}` });
   }
 };
 
