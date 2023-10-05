@@ -80,12 +80,12 @@ app.put("/api/nymphaea/customers/:cod", updateOneCustomer);
 app.delete("/api/nymphaea/customers/:cod", deleteOneCustomer);
 app.post("/api/nymphaea/customers", postOneCustomer);
 
-// Rute Retur
+// Rute Programari
 app.get("/api/nymphaea/appointments", getAllAppointments);
-app.get("/api/nymphaea/appointments/:nr", getOneAppointment);
+app.get("/api/nymphaea/appointments/:cod", getOneAppointment);
 app.post("/api/nymphaea/appointments", postOneAppointment);
-app.put("/api/nymphaea/appointments/:nr", updateOneAppointment);
-app.delete("/api/nymphaea/appointments/:nr", deleteOneAppointment);
+app.put("/api/nymphaea/appointments/:cod", updateOneAppointment);
+app.delete("/api/nymphaea/appointments/:cod", deleteOneAppointment);
 
 // Rute Stocuri
 app.get("/api/nymphaea/inventory", getAllInventory);

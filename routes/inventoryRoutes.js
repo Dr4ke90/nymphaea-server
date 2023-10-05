@@ -68,7 +68,7 @@ const postOneProduct = async (req, res) => {
 const updateOneProduct = async (req, res) => {
   const { cod } = req.params;
   const data = req.body;
-
+  
   try {
     const db = await connectDB();
     const collection = db.collection("stocuri");
@@ -85,7 +85,10 @@ const updateOneProduct = async (req, res) => {
     if (response.modifiedCount !== 0) {
       return res
         .status(200)
-        .json({ message: `Produsul ${cod} a fost actualizata cu succes.` });
+        .json({
+          message: `Produsul ${cod} a fost actualizata cu succes.`,
+          response: data,
+        });
     }
   } catch (error) {
     res.status(500).json("Eroare la actualizarea Produsuli " + cod);

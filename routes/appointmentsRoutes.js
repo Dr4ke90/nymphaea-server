@@ -14,23 +14,28 @@ const getAllAppointments = async (req, res) => {
 };
 
 const getOneAppointment = async (req, res) => {
-  const { nr } = req.params;
+  const { cod } = req.params;
   try {
     const db = await connectDB();
     const collection = db.collection("programari");
 
     const response = await collection.findOne(
-      { nr: nr },
+      { cod: cod },
       { returnDocument: "after" }
     );
 
     if (!response) {
       return res
-        .status(404)
-        .json({ error: `Programarea ${nr} nu a fost găsita.` });
+        .status(200)
+        .json({ error: `Programarea ${cod} nu a fost găsita.`, response: {} });
     }
 
-    res.json(response);
+    return res
+      .status(200)
+      .json({
+        message: `Programarea ${cod} a fost preluata cu succes`,
+        response: response,
+      });
   } catch (error) {
     console.error("Eroare la preluarea programarii " + nr, error);
     res.status(500).json({ error: "Eroare la preluarea programarii " + nr });
@@ -81,12 +86,10 @@ const updateOneAppointment = async (req, res) => {
     }
 
     if (response.modifiedCount !== 0) {
-      return res
-        .status(200)
-        .json({
-          message: `Programarea ${nr} a fost actualizata cu succes.`,
-          response: appointement,
-        });
+      return res.status(200).json({
+        message: `Programarea ${nr} a fost actualizata cu succes.`,
+        response: appointement,
+      });
     }
   } catch (error) {
     res
