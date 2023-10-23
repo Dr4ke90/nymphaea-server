@@ -1,3 +1,4 @@
+const { ObjectId } = require("mongodb");
 const connectDB = require("../db");
 
 const getAllAppointments = async (req, res) => {
@@ -65,7 +66,7 @@ const postOneAppointment = async (req, res) => {
 };
 
 const updateOneAppointment = async (req, res) => {
-  const { nr } = req.params;
+  const { cod } = req.params;
   const appointement = req.body;
 
   try {
@@ -74,27 +75,27 @@ const updateOneAppointment = async (req, res) => {
     const collection = db.collection("programari");
 
     const response = await collection.updateOne(
-      { nr: nr },
+      { cod: cod },
       { $set: appointement }
     );
 
     if (response.matchedCount === 0) {
       return res.status(200).json({
-        message: `Programarea ${nr} nu a fost gasita!`,
+        message: `Programarea ${cod} nu a fost gasita!`,
         response: {},
       });
     }
 
     if (response.modifiedCount !== 0) {
       return res.status(200).json({
-        message: `Programarea ${nr} a fost actualizata cu succes.`,
+        message: `Programarea ${cod} a fost actualizata cu succes.`,
         response: appointement,
       });
     }
   } catch (error) {
     res
       .status(500)
-      .json({ message: "Eroare la actualizarea Programarii " + nr, error });
+      .json({ message: "Eroare la actualizarea Programarii " + cod, error });
   }
 };
 

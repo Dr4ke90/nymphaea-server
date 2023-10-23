@@ -45,6 +45,7 @@ const {
 } = require("./routes/inventoryRoutes");
 const { getAllReceipes, postOneReceipe, updateOneReceipe, deleteOneReceipe } = require("./routes/cashRegisterRoutes");
 const { getAllSales, postOneSale, getOneSale } = require("./routes/salesRoute");
+const { getAllEquipment, getOneEquipment, postOneEchipament, updateOneEquipment } = require("./routes/equipmentRoutes");
 
 
 // Middlewares
@@ -92,6 +93,12 @@ app.get("/api/nymphaea/inventory", getAllInventory);
 app.get("/api/nymphaea/inventory/:cod", getOneProduct);
 app.post("/api/nymphaea/inventory", postOneProduct);
 app.put("/api/nymphaea/inventory/:cod", updateOneProduct);
+
+// Rute Echipament
+app.get("/api/nymphaea/equipment", getAllEquipment);
+app.get("/api/nymphaea/equipment/:cod", getOneEquipment);
+app.post("/api/nymphaea/equipment", postOneEchipament);
+app.put("/api/nymphaea/equipment/:cod", updateOneEquipment);
 
 // Rute Casa
 app.get("/api/nymphaea/casa", getAllReceipes);
