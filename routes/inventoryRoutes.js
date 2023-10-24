@@ -43,8 +43,6 @@ const getOneProduct = async (req, res) => {
 const postOneProduct = async (req, res) => {
   const product = req.body;
 
-  console.log(product)
-
   try {
     const db = await connectDB();
     const collection = db.collection("stocuri");
